@@ -13,4 +13,9 @@ public class Saco extends Prenda{
 	public double precioBase (){
 		return 300 + botones*10;
 	}
-}
+	
+	public Saco(){
+		super();
+	}
+
+	}

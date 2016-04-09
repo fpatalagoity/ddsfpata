@@ -13,5 +13,8 @@ public class Zapato extends Prenda {
 	public double precioBase (){
 		return 400 + 5 * talle;
 	}
+	public Zapato (){
+		super();
+	}
 	
 }

@@ -14,4 +14,8 @@ public class Sombrero extends Prenda {
 		public double precioBase (){
 			return 150 * (1+coefMS);
 		}
+		
+		public Sombrero (){
+			super();
+		}
 }

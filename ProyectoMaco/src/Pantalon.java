@@ -14,4 +14,7 @@ public class Pantalon extends Prenda{
 	public double precioBase (){
 		return 250 + telaUsada;
 	}
+	public Pantalon(){
+		super();
+	}
 }

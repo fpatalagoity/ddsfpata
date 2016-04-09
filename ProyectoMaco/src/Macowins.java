@@ -30,5 +30,17 @@ public class Macowins {
 				.map(venta -> venta.ganancia())
 				.reduce(0.0, Double::sum);
 	}
+	
+	public double cantidadDePrendas(Prenda prendaX){
+		double cantidadTotal=0;
+		for (int i=1;i==(ventas.size()-1);i++)
+		{
+			if (ventas.get(i).getPrenda()==prendaX) 
+			{
+			cantidadTotal=cantidadTotal+ventas.get(i).getCantidad();	
+			}
+		}
+		return (double)cantidadTotal;
+	}
 }
 
