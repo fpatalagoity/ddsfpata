@@ -8,7 +8,6 @@ import java.util.List;
 import org.uqbar.geodds.Polygon;
 
 import ar.edu.TPPOI.CGP;
-import ar.edu.TPPOI.CGPExternoParaTest;
 import ar.edu.TPPOI.Direccion;
 import ar.edu.TPPOI.Horario;
 import ar.edu.TPPOI.POI;
@@ -18,7 +17,7 @@ public class CGPAdapter implements SistemaExternoAdapterInterface {
 
 	CGPExternoInterface cgpExterno;
 
-	public CGPAdapter(CGPExternoParaTest unSistemaConsultaDeCGPsExterno) {
+	public CGPAdapter(CGPExternoInterface unSistemaConsultaDeCGPsExterno) {
 		cgpExterno = unSistemaConsultaDeCGPsExterno;
 	}
 

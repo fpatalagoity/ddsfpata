@@ -29,7 +29,7 @@ public class CGP extends EmpresaMultiServicios {
 		this.direccion = unaDireccion;
 	}
 
-	public boolean estaCercaDe(Point unaCoordenada) {
+	public boolean estasCercaDe(Point unaCoordenada) {
 		return this.comuna.isInside(unaCoordenada);
 	}
 
@@ -56,8 +56,8 @@ public class CGP extends EmpresaMultiServicios {
 		return true;
 	}
 
-	public boolean esElMismoPOI(POI otroPOI) {
-		return otroPOI.esCGP() && super.esElMismoPOI(otroPOI);
+	public boolean soyElMismoPOI(POI otroPOI) {
+		return otroPOI.esCGP() && super.soyElMismoPOI(otroPOI);
 	}
 
 }

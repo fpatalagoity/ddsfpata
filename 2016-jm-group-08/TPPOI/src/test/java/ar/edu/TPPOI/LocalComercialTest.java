@@ -25,12 +25,12 @@ public class LocalComercialTest {
 
 	@Test
 	public void testStarbucksNoEstaCercaDeMiCoordenada() {
-		Assert.assertFalse(starbucks.estaCercaDe(coordenadaMia));
+		Assert.assertFalse(starbucks.estasCercaDe(coordenadaMia));
 	}
 
 	@Test
 	public void testStarbucksEstaCercaDeCoordenadaCercaStarbucks() {
-		Assert.assertTrue(starbucks.estaCercaDe(coordenadaCercaStarbucks));
+		Assert.assertTrue(starbucks.estasCercaDe(coordenadaCercaStarbucks));
 	}
 
 	@Test

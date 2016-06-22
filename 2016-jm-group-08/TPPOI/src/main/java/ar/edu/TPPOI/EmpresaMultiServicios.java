@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.uqbar.geodds.Point;
 
+import excepciones.NoExisteServicioAsociadoException;
+
 public abstract class EmpresaMultiServicios extends POI {
 
 	protected List<Servicio> servicios = new ArrayList<>();

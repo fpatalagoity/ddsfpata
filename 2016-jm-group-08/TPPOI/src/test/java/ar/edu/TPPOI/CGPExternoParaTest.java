@@ -10,21 +10,22 @@ import externos.ServicioDTO;
 public class CGPExternoParaTest implements CGPExternoInterface {
 
 	public List<CentroDTO> buscar(String unTextoLibre) {
-		
-		if (unTextoLibre.equals("San Cristobal")||unTextoLibre.equals("Junin")||unTextoLibre.equals("Balvanera")){
+
 		CentroDTO nuevoCGP = new CentroDTO();
 		List<CentroDTO> listaDeCGPsExternosParaElAdapter = new ArrayList<CentroDTO>();
-		nuevoCGP.director = "Juan";
-		nuevoCGP.domicilioCompleto = "Junin 521";
-		nuevoCGP.zonas.add("San Cristobal");
-		nuevoCGP.zonas.add("Balvanera");
-		nuevoCGP.numeroDeComuna = 3;
-		nuevoCGP.telefono = "4375-0644/45";
-		nuevoCGP.serviciosDTO = crearServiciosDTO();
-		listaDeCGPsExternosParaElAdapter.add(nuevoCGP);
+		if (unTextoLibre.equals("San Cristobal") || unTextoLibre.equals("Junin") || unTextoLibre.equals("Balvanera")) {
+			nuevoCGP.director = "Juan";
+			nuevoCGP.domicilioCompleto = "Junin 521";
+			nuevoCGP.zonas.add("San Cristobal");
+			nuevoCGP.zonas.add("Balvanera");
+			nuevoCGP.numeroDeComuna = 3;
+			nuevoCGP.telefono = "4375-0644/45";
+			nuevoCGP.serviciosDTO = crearServiciosDTO();
+			listaDeCGPsExternosParaElAdapter.add(nuevoCGP);
+		}
 		return listaDeCGPsExternosParaElAdapter;
-	}return null;
 	}
+
 	public CentroDTO crearCentroDTO() {
 		CentroDTO nuevoCGP = new CentroDTO();
 		nuevoCGP.director = "Juan";

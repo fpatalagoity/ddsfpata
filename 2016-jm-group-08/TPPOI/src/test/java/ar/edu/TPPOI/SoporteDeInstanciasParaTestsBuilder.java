@@ -13,17 +13,15 @@ import externos.CGPAdapter;
 import externos.CentroDTO;
 import externos.ServicioDTO;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class SoporteDeInstanciasParaTestsBuilder {
 
 	Point miCoordenaAbasto, coordenadaCercaParada114, coordenadaCercaBancoCiudad, coordenadaStarbucks,
 			coordenadaCercaStarbucks, coordenadaSportClub, coordenadaCineAbasto, coordenadaParada114,
 			coordenadaBancoCiudad;
-	ParadaDeColectivo parada114DeCabildoYMonroe;
-	Servicio cargaSUBE, prestamo, cortePelo;
-	LocalComercial starbucksCoronelDiaz1400, sportClubLibertador7395, cineAbasto;
+	ParadaDeColectivo parada114DeCabildoYMonroe, parada114DeLugano;
+	Servicio cargaSUBE, prestamo, cortePelo, deudas;
+	LocalComercial starbucksCoronelDiaz1400, sportClubLibertador7395, cineAbasto, starbucksRivadavia;
 	BancoExternoParaTest bancoExternoImpostor;
 	BancoAdapter bancoAdapter;
 	CGPExternoParaTest cgpExternoImpostor;
@@ -31,10 +29,18 @@ public class SoporteDeInstanciasParaTestsBuilder {
 	SucursalBanco bancoCiudadCabildoYCongreso;
 	CGP cgpComuna5;
 	MapaPOI mapa;
-	Terminal terminalAbasto = new Terminal();
-	Notificar notificar = new Notificar();
-	Almacenar almacenar = new Almacenar();
-
+	Terminal terminal;
+	Notificar notificar;
+	Almacenar almacenar;
+	EnvioDeMail envioDeMail;
+	TotalResultadosPorBusquedaYTerminal totalResultPorBusqYTerm; 
+	Reporte reporte;
+	TotalBusquedasPorFecha totBusqPorFecha;
+	TotalResultadosPorTerminal totResultPorTerminal;
+	Registro registro;
+	TotalBusquedasPorFecha reporteDeTotalDeBusquedasPorFecha;
+	TotalResultadosPorTerminal reporteDeTotalDeResultadosPorTerminal;
+	
 	public Point miCoordenaAbasto() {
 		if (miCoordenaAbasto == null) {
 			miCoordenaAbasto = new Point(-58.42059446334839, -34.60421247366349);
@@ -54,12 +60,32 @@ public class SoporteDeInstanciasParaTestsBuilder {
 		return parada114DeCabildoYMonroe;
 	}
 
+	public ParadaDeColectivo paradaDeColectivo114DeLugano() {
+		if (parada114DeLugano == null) {
+			coordenadaParada114 = new Point(-88.459845185279846, -24.558164509672146);
+			Direccion direccionParada114 = new Direccion();
+			direccionParada114.setCalles("lugano", "mozart");
+			parada114DeLugano = new ParadaDeColectivo("114", coordenadaParada114, direccionParada114);
+		}
+
+		return parada114DeLugano;
+	}
+
 	public Servicio prestamo() {
 		if (prestamo == null) {
 			prestamo = Servicio.nuevoServicioBanco("prestamo");
 		}
 
 		return prestamo;
+
+	}
+
+	public Servicio deudas() {
+		if (deudas == null) {
+			deudas = Servicio.nuevoServicioBanco("deudas");
+		}
+
+		return deudas;
 
 	}
 
@@ -86,13 +112,8 @@ public class SoporteDeInstanciasParaTestsBuilder {
 	}
 
 	public BancoExternoParaTest bancoExternoImpostorMock() {
-		/*
-		 * bancoExternoImpostor = mock(BancoExternoImpostor.class);
-		 * when(bancoExternoImpostor.buscar("Banco de la Plaza",
-		 * "extracciones")).thenReturn(this.json()); return
-		 * bancoExternoImpostor;
-		 */
 		return new BancoExternoParaTest();
+
 	}
 
 	public BancoAdapter bancoAdapter() {
@@ -143,11 +164,8 @@ public class SoporteDeInstanciasParaTestsBuilder {
 	}
 
 	public CGPExternoParaTest CGPExternoImpostorMock() {
-		cgpExternoImpostor = mock(CGPExternoParaTest.class);
-		when(cgpExternoImpostor.buscar("Balvanera")).thenReturn(this.crearCentrosDTO());
-		when(cgpExternoImpostor.buscar("Junin")).thenReturn(this.crearCentrosDTO());
-		when (cgpExternoImpostor.buscar("San Cristobal")).thenReturn(this.crearCentrosDTO());
-		return cgpExternoImpostor;
+
+		return new CGPExternoParaTest();
 	}
 
 	public CGPAdapter CGPAdapter() {
@@ -210,6 +228,26 @@ public class SoporteDeInstanciasParaTestsBuilder {
 		return starbucksCoronelDiaz1400;
 	}
 
+	public LocalComercial starbucksRivadavia() {
+		if (starbucksRivadavia == null) {
+			coordenadaStarbucks = new Point(-98.413718, -44.593303);
+			LocalTime horaInicio = LocalTime.of(10, 00);
+			LocalTime horaFin = LocalTime.of(20, 00);
+			List<Horario> horarios2 = new ArrayList<>();
+			horarios2.add(new Horario(DayOfWeek.MONDAY, horaInicio, horaFin));
+			horarios2.add(new Horario(DayOfWeek.TUESDAY, horaInicio, horaFin));
+			horarios2.add(new Horario(DayOfWeek.WEDNESDAY, horaInicio, horaFin));
+			horarios2.add(new Horario(DayOfWeek.THURSDAY, horaInicio, horaFin));
+			horarios2.add(new Horario(DayOfWeek.FRIDAY, horaInicio, horaFin));
+			horarios2.add(new Horario(DayOfWeek.SATURDAY, horaInicio, horaFin));
+			Direccion direccionStarbucks = new Direccion("Rivadavia", 3647);
+			starbucksRivadavia = LocalComercial.nuevoLocalConRubroCafeteria("Starbucks", coordenadaStarbucks, horarios2,
+					direccionStarbucks);
+		}
+
+		return starbucksRivadavia;
+	}
+
 	public LocalComercial sportClubLibertador7395() {
 		if (sportClubLibertador7395 == null) {
 			coordenadaSportClub = new Point(-58.4627205, -34.5436991);
@@ -258,8 +296,10 @@ public class SoporteDeInstanciasParaTestsBuilder {
 		if (mapa == null) {
 			mapa = new MapaPOI();
 			mapa.agregarPOI(paradaDeColectivo114DeCabildoYMonroe());
+			mapa.agregarPOI(paradaDeColectivo114DeLugano());
 			mapa.agregarPOI(bancoCiudadCabildoYCongreso());
 			mapa.agregarPOI(cgpComuna5());
+			mapa.agregarPOI(starbucksRivadavia());
 			mapa.agregarPOI(starbucksCoronelDiaz1400());
 			mapa.agregarPOI(sportClubLibertador7395());
 			mapa.agregarSistemaExternoAdapter(bancoAdapter());
@@ -269,6 +309,48 @@ public class SoporteDeInstanciasParaTestsBuilder {
 		return mapa;
 	}
 
+	public Terminal terminal() {
+		if (terminal == null) {
+			terminal = new Terminal();
+		}
 
+		return terminal;
+	}
 
+	public EnvioDeMail envioDeMail() {
+		if (envioDeMail == null) {
+			envioDeMail = new EnvioDeMail();
+		}
+
+		return envioDeMail;
+	}
+
+	public Notificar notificar(EnvioDeMail unEnvioDeMail) {
+		if (notificar == null) {
+			notificar = new Notificar(unEnvioDeMail);
+		}
+
+		return notificar;
+	}
+
+	public Almacenar almacenar() {
+		if (almacenar == null) {
+			almacenar = new Almacenar();
+		}
+
+		return almacenar;
+	}
+
+	public Registro registro() {
+	registro=new Registro();
+	return registro;
+	}
+	public Reporte reporteDeTotalDeBusquedasPorFecha(){
+		TotalBusquedasPorFecha reporteDeTotalDeBusquedasPorFecha = new TotalBusquedasPorFecha();
+		return reporteDeTotalDeBusquedasPorFecha;
+	}
+	public Reporte reporteDeTotalDeResultadosPorTerminal(){
+	TotalResultadosPorTerminal reporteDeTotalDeResultadosPorTerminal =new TotalResultadosPorTerminal();
+	return reporteDeTotalDeResultadosPorTerminal;
+	}
 }

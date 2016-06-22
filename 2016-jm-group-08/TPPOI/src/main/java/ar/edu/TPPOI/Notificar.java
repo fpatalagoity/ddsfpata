@@ -1,58 +1,38 @@
 package ar.edu.TPPOI;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import javax.mail.MessagingException;
 
-public class Notificar extends Accion {
-	String nombreAccion="notificar";
+public class Notificar implements Accion{
 
-	boolean mailEnviado = false;
+
+	long tiempoLimite;
+	EnvioDeMail envioDeMail;
 	
-	public void mandarMail(Terminal unaTerminal){
+	public void ejecutar(BusquedaHecha unaBusqueda, Terminal unaTerminal){
 		
-		if (this.getActivado()){
-			this.mailEnviado = true;
-			unaTerminal.seEnvioElMail();
+		
+		if(unaBusqueda.tiempoDeBusqueda > tiempoLimite){
+			try {
+				envioDeMail.generateAndSendEmail(tiempoLimite, unaBusqueda.tiempoDeBusqueda);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
-	public String getNombreAccion() {
-		return nombreAccion;
-	}
-
-	public boolean getMailEnviado(){
-		return mailEnviado;
-	}
+	//-------------------------------------------------------
 	
-
-	public void almacenarBusqueda(String unTextoLibre, long tiempoQueDemoroLaBusqueda2, Integer cantidadDeResultados) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void almacenarBusqueda(String unTextoLibre, long tiempoQueDemoroLaBusqueda2, Integer cantidadDeResultados,
-			Terminal terminal) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Integer cantidadDeBusquedasPorFecha(LocalDateTime unaFecha, Terminal terminal) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Integer resultadoPorBusqueda(String unTextoLibre, Terminal terminal) {
-		// TODO Auto-generated method stub
-		return null;
+	public void setTiempoLimite(long unTiempoLimite){
+		this.tiempoLimite = unTiempoLimite;
 	}
 
 	
-	@Override
-	public Integer resultadosTotales(List<Terminal> terminales) {
-		// TODO Auto-generated method stub
-		return null;
+	public Notificar(EnvioDeMail unEnvioDeMail){
+		this.envioDeMail = unEnvioDeMail;
 	}
+	
+
+ 
+	
 }

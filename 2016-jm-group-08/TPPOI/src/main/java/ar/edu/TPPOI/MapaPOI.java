@@ -26,14 +26,13 @@ public class MapaPOI {
 	}
 
 	public List<POI> busquedaLocal(String textoLibre) {
-		return this.getListaDePOIs().stream().filter(unPOI -> unPOI.busqueda(textoLibre))
-				.collect(Collectors.toList());
+		return this.getListaDePOIs().stream().filter(unPOI -> unPOI.busqueda(textoLibre)).collect(Collectors.toList());
 	}
 
 	public List<POI> buscarEnSistemasExternos(String textoLibre) {
 		List<POI> listaDePOIsExternos = new ArrayList<>();
-		listaDeSistemaExternoAdapter.stream().forEach(unSistemaExternoAdapter -> listaDePOIsExternos
-				.addAll(unSistemaExternoAdapter.buscar(textoLibre)));
+		listaDeSistemaExternoAdapter.stream().forEach(
+				unSistemaExternoAdapter -> listaDePOIsExternos.addAll(unSistemaExternoAdapter.buscar(textoLibre)));
 		return listaDePOIsExternos;
 	}
 
@@ -58,7 +57,7 @@ public class MapaPOI {
 	}
 
 	public POI buscarPoi(POI poi) {
-		return listaDePOIs.stream().filter(unPOILocal -> unPOILocal.esElMismoPOI(poi)).findFirst().orElse(null);
+		return listaDePOIs.stream().filter(unPOILocal -> unPOILocal.soyElMismoPOI(poi)).findFirst().orElse(null);
 	}
 
 	public boolean estaEnLocal(POI unPOIExterno) {
@@ -73,9 +72,8 @@ public class MapaPOI {
 		listaDeSistemaExternoAdapter.remove(unSistemaExternoAdapter);
 	}
 
-	public Integer buscarDesdeTerminal(String unTexto){
-		this.buscar(unTexto);
-		return this.buscar(unTexto).size();
-		
+	public Integer cantidadDePOIsEncontrados(String unTextoLibre) {
+		return this.buscar(unTextoLibre).size();
 	}
+
 }

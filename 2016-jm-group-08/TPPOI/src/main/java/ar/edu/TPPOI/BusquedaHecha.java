@@ -1,32 +1,47 @@
 package ar.edu.TPPOI;
 
-import java.time.LocalDate;
-
-//Este es el objeto que representa la estructura de la busqueda (frase, cantTotal, tiempo) para almacenar
 public class BusquedaHecha {
-
+	
 	String frase;
-	int cantidadBusquedas;
-	long tiempoQueTardoLaConsulta;
-	LocalDate fecha;
+	Integer cantDeResultados;
+	long tiempoDeBusqueda;
 	
-	public void setFrase(String unaFrase){
-		this.frase = unaFrase;
+
+	public void setFrase(String frase){
+		this.frase = frase;
 	}
 	
-	public void setCantDeBusquedas(int cant){
-		this.cantidadBusquedas = cant;
+	public void setCantDeResultados(Integer cantDeResultados){
+		this.cantDeResultados = cantDeResultados;
 	}
 	
-	public void setTiempoQueTardoLaBusqueda(long unTiempo){
-		this.tiempoQueTardoLaConsulta = unTiempo;
+	public void setTiempoDeBusqueda(long tiempoDeBusqueda){
+		this.tiempoDeBusqueda = tiempoDeBusqueda;
 	}
 	
-	public void setFecha(LocalDate unaFecha){
-		this.fecha = unaFecha;
+	
+	
+	public String getFrase(){
+		return this.frase;
 	}
 	
-	public LocalDate getFecha(){
-		return this.fecha;
+	public Integer getCantDeResultados(){
+		return this.cantDeResultados;
 	}
+	
+	public long getTiempoDeBusqueda(){
+		return this.tiempoDeBusqueda;
+	}
+	
+	public BusquedaHecha datosDeLaBusqueda(String unTextoLibre,Terminal unaTerminal){
+	long tiempoInicio;
+	tiempoInicio = System.nanoTime(); 
+	cantDeResultados = unaTerminal.getMapa().cantidadDePOIsEncontrados(unTextoLibre);
+	tiempoDeBusqueda = System.nanoTime() - tiempoInicio;
+	this.setFrase(unTextoLibre);
+	this.setCantDeResultados(cantDeResultados);
+	this.setTiempoDeBusqueda(tiempoDeBusqueda);
+	return this;
+	}
+
 }

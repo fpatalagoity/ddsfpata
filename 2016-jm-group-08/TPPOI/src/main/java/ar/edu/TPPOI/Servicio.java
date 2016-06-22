@@ -19,8 +19,8 @@ public class Servicio {
 		this.nombre = unNombre;
 		this.agregarHorario(unHorario);
 	}
-	
-	public void agregarHorario(Horario unHorario){
+
+	public void agregarHorario(Horario unHorario) {
 		horarios.add(unHorario);
 	}
 

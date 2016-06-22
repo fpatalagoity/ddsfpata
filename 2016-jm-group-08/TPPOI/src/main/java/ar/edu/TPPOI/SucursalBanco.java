@@ -26,7 +26,7 @@ public class SucursalBanco extends EmpresaMultiServicios {
 	}
 
 	public boolean coincideConAtributo(String unTextoLibre) {
-		String [] nombre=unTextoLibre.split(",");
+		String[] nombre = unTextoLibre.split(",");
 		return this.getNombre().equals(nombre[0]) || this.getNombreSucursal().equals(nombre[0]);
 	}
 
@@ -34,11 +34,11 @@ public class SucursalBanco extends EmpresaMultiServicios {
 		return true;
 	}
 
-	public boolean esElMismoPOI(POI otroPOI) {
+	public boolean soyElMismoPOI(POI otroPOI) {
 
 		if (otroPOI.esBanco()) {
 			SucursalBanco unaSucursalBanco = (SucursalBanco) otroPOI;
-			return (super.esElMismoPOI(otroPOI)
+			return (super.soyElMismoPOI(otroPOI)
 					&& StringUtils.containsIgnoreCase(unaSucursalBanco.getNombreSucursal(), this.getNombreSucursal()));
 		} else {
 			return false;

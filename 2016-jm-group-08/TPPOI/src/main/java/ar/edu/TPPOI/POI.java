@@ -45,23 +45,23 @@ public abstract class POI {
 		this.tags.add(unTag);
 	}
 
-	public boolean esValido() {
-		return this.tieneNombre() && this.tieneCoordenada();
+	public boolean sosValido() {
+		return this.tengoNombre() && this.tengoCoordenada();
 	}
 
-	public boolean tieneNombre() {
+	public boolean tengoNombre() {
 		return this.getNombre() != null;
 	}
 
-	public boolean tieneCoordenada() {
+	public boolean tengoCoordenada() {
 		return this.getCoordenada() != null;
 	}
 
-	public boolean estaCercaDe(Point unaCoordenada) {
-		return this.estaAMenosDeXMetrosDe(this.radioCercania, unaCoordenada);
+	public boolean estasCercaDe(Point unaCoordenada) {
+		return this.estasAMenosDeXMetrosDe(this.radioCercania, unaCoordenada);
 	}
 
-	private boolean estaAMenosDeXMetrosDe(Integer unosMetros, Point unaCoordenada) {
+	private boolean estasAMenosDeXMetrosDe(Integer unosMetros, Point unaCoordenada) {
 		return this.distanciaAUnaCoordenada(unaCoordenada) < (unosMetros / 1000.0);
 	}
 
@@ -69,8 +69,8 @@ public abstract class POI {
 		return this.getCoordenada().distance(unaCoordenada);
 	}
 
-	public boolean estaAMenosDeXMetrosDe(Integer unosMetros, POI unPOI) {
-		return this.estaAMenosDeXMetrosDe(unosMetros, unPOI.getCoordenada());
+	public boolean estasAMenosDeXMetrosDe(Integer unosMetros, POI unPOI) {
+		return this.estasAMenosDeXMetrosDe(unosMetros, unPOI.getCoordenada());
 	}
 
 	private boolean coincideConAlgunTag(String unTextoLibre) {
@@ -98,7 +98,7 @@ public abstract class POI {
 		return false;
 	}
 
-	public boolean esElMismoPOI(POI otroPOI) {
+	public boolean soyElMismoPOI(POI otroPOI) {
 		return StringUtils.containsIgnoreCase(otroPOI.getNombre(), this.getNombre());
 	}
 

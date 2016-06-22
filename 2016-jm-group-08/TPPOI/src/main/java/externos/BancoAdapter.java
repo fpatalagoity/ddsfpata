@@ -16,15 +16,15 @@ import ar.edu.TPPOI.SucursalBanco;
 
 public class BancoAdapter implements SistemaExternoAdapterInterface {
 
-	BancoExternoParaTest bancoExternoImpostor;
+	BancoExternoInterface bancoExterno;
 
 	public BancoAdapter(BancoExternoParaTest unSistemaConsultaDeBancosExterno) {
-		bancoExternoImpostor = unSistemaConsultaDeBancosExterno;
+		bancoExterno = unSistemaConsultaDeBancosExterno;
 	}
 
 	public List<POI> buscar(String unTextoLibre) {
 		Gson gson = new Gson();
-		String json = this.bancoExternoImpostor.buscar(unTextoLibre);
+		String json = this.bancoExterno.buscar(unTextoLibre);
 		BancoJSON[] bancosJSON = gson.fromJson(json, BancoJSON[].class);
 		if (bancosJSON == null) {
 			List<POI> listaVaciaDePOIs = new ArrayList<>();

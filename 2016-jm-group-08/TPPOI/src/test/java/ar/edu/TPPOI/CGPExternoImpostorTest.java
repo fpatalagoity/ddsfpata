@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CGPExternoImpostorTest{
+public class CGPExternoImpostorTest {
 	SoporteDeInstanciasParaTestsBuilder soporteDeInstanciasParaTestsBuilder;
 
 	@Before
@@ -14,21 +14,23 @@ public class CGPExternoImpostorTest{
 
 	@Test
 	public void testBusquedaConCoincidenciaDevuelveCGP3() {
-		Assert.assertEquals(1,soporteDeInstanciasParaTestsBuilder.CGPExternoImpostorMock().buscar("Balvanera").size(),0);
+		Assert.assertEquals(1, soporteDeInstanciasParaTestsBuilder.CGPExternoImpostorMock().buscar("Balvanera").size(),
+				0);
 	}
 
 	@Test
 	public void testBusquedaSinCoincidenciaDevuelveVacio() {
-		Assert.assertEquals(0,soporteDeInstanciasParaTestsBuilder.CGPExternoImpostorMock().buscar("Almagro").size());
+		Assert.assertEquals(0, soporteDeInstanciasParaTestsBuilder.CGPExternoImpostorMock().buscar("Almagro").size());
 	}
 
 	@Test
 	public void testBusquedaDeJuninOK() {
-		Assert.assertEquals(1,soporteDeInstanciasParaTestsBuilder.CGPExternoImpostorMock().buscar("Junin").size());
+		Assert.assertEquals(1, soporteDeInstanciasParaTestsBuilder.CGPExternoImpostorMock().buscar("Junin").size());
 	}
-	
-	@Test 
-	public void testEncuentraSanCristobal(){
-		Assert.assertEquals(1,soporteDeInstanciasParaTestsBuilder.CGPExternoImpostorMock().buscar("San Cristobal").size());
+
+	@Test
+	public void testEncuentraSanCristobal() {
+		Assert.assertEquals(1,
+				soporteDeInstanciasParaTestsBuilder.CGPExternoImpostorMock().buscar("San Cristobal").size());
 	}
 }

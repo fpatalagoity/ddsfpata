@@ -1,80 +1,78 @@
 package ar.edu.TPPOI;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class Terminal{
+import excepciones.NoSePuedeDesactivarException;
+import excepciones.YaExisteUnaAccionDeEseTipoException;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+public class Terminal {
 	
-	String identificador;//Unico, se usa para identificar a una terminal
-	long tiempoLimite;
-	Map<LocalDateTime,Integer> busquedasPorFecha=new HashMap<LocalDateTime,Integer>();
 	MapaPOI mapa;
-	List<Accion> acciones=new ArrayList<>(); 
-	public List<Accion> getAcciones() {
-		return acciones;
-	}
-
-	public void setAcciones(List<Accion> acciones) {
-		this.acciones = acciones;
-	}
-
-	long tiempoQueDemoroLaBusqueda;
 	List<BusquedaHecha> busquedasHechas = new ArrayList<>();
-	AlmacenTerminales almacen = new AlmacenTerminales();//me parece que el almacen deberia ser estatico
+	List<Accion> acciones = new ArrayList<>();
+	Registro registro;
 	
-	public void agregarBusquedaHecha(BusquedaHecha unaBusqueda){
-		busquedasHechas.add(unaBusqueda);
-	}
+	//-------------------------------------------------------------
 	
 	public void setMapa(MapaPOI unMapa){
 		this.mapa = unMapa;
 	}
 	
-	public void setTiempoLimite(long tiempo){
-		this.tiempoLimite = tiempo;
+	public MapaPOI getMapa(){
+		return this.mapa;
 	}
 	
-	public boolean almacenoBusqueda(){
-		return busquedasHechas.size() >= 1;
-	}
-	
-	public void buscar(String unTextoLibre){
-		LocalDateTime fechaActual= LocalDateTime.now();
-		Integer cantidadDeBusquedasDelDia=busquedasPorFecha.get(fechaActual);
-		busquedasPorFecha.put(fechaActual, cantidadDeBusquedasDelDia++);		
-		long start = System.nanoTime();
-		Integer cantidadDeResultados=this.mapa.buscarDesdeTerminal(unTextoLibre);		
-		this.tiempoQueDemoroLaBusqueda = System.nanoTime() - start;
-		if (this.superaTiempoLimite()) {
-			acciones.stream().filter(unaA->unaA.getNombreAccion().equals("notificar")).collect(Collectors.toList()).get(0).mandarMail(this);
-		};
-		this.almacenarBusquedaSiEstaActivado(unTextoLibre,this.tiempoQueDemoroLaBusqueda,cantidadDeResultados);
+	public void activarAccion(Accion unaAccion){
+		if (this.yaExisteAccionDeEseTipo(unaAccion)){
+			throw new YaExisteUnaAccionDeEseTipoException("Ya existe una accion de ese tipo") ;
 		}
-		
-	
-	private void almacenarBusquedaSiEstaActivado(String unTextoLibre, long tiempoQueDemoroLaBusqueda2, Integer cantidadDeResultados) {
-		acciones.stream().filter(unaA->unaA.getNombreAccion().equals("almacenar")).collect(Collectors.toList()).get(0).almacenarBusqueda(unTextoLibre, tiempoQueDemoroLaBusqueda2,cantidadDeResultados,this);;
-	}
-
-	public boolean superaTiempoLimite(){
-		return this.tiempoQueDemoroLaBusqueda > this.tiempoLimite;	
+		else{
+			this.acciones.add(unaAccion);
+		}
 	}
 	
-	public Integer obtenerReporteDeBusquedasPorFecha(LocalDateTime unaFecha){
-		return acciones.stream().filter(unaA->unaA.getNombreAccion().equals("obtenerReporte")).collect(Collectors.toList()).get(0).cantidadDeBusquedasPorFecha(unaFecha,this);
+	public void desactivarAccion(Accion unaAccion){
+		if (!acciones.contains(unaAccion)){
+			throw new NoSePuedeDesactivarException("No se puede desactivar");
+		}
+		else{
+			this.acciones.remove(unaAccion);
+		}
 	}
-	public Integer reporteDeResultadosPorBusqueda(String unTextoLibre){
-		return acciones.stream().filter(unaA->unaA.getNombreAccion().equals("resultadoPorBusqueda")).collect(Collectors.toList()).get(0).resultadoPorBusqueda(unTextoLibre,this);
-	}
-
-	public boolean seEnvioElMail() {
-		return true;
-		
+	
+	public boolean yaExisteAccionDeEseTipo(Accion unaAccion){
+		return acciones.stream().anyMatch(unaA -> unaA.getClass().equals(unaAccion.getClass()));
 	}
 
 	
+	public void agregarBusquedaHecha(BusquedaHecha unaBusquedaHecha){
+		this.busquedasHechas.add(unaBusquedaHecha);
+	}
+	
+	public List<BusquedaHecha> getBusquedasHechas(){
+		return this.busquedasHechas;
+	}
+	
+	public List<Accion> getAcciones(){
+		return this.acciones;
+	}
+	
+	//--------------------------------------------------------------
+	 
+	public void buscar(String unTextoLibre){
+		BusquedaHecha unaBusqueda = new BusquedaHecha();
+		unaBusqueda.datosDeLaBusqueda(unTextoLibre,this);
+		this.acciones.forEach(unaAccion -> unaAccion.ejecutar(unaBusqueda, this));
+		this.registro.registrar(unaBusqueda,this);
+	}
+	public Map<LocalDate,Integer> obtenerReporteTotalesBusquedaPorFecha(){
+		return this.registro.obtenerReporteTotalesBusquedasPorFecha();
+	}
+	public List<CantidadPorTerminal> obtenerTotalResultadosPorBusquedaYTerminal(){
+		return this.registro.obtenerTotalResultadosPorBusquedaYTerminal();
+	}
 }

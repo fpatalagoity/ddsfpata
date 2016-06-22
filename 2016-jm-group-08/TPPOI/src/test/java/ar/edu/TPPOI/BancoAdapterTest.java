@@ -20,7 +20,8 @@ public class BancoAdapterTest {
 	public void testBusquedaConCoincidenciaDevuelveDosSucursalesBanco() {
 
 		SucursalBanco unaSucursalBanco;
-		List<POI> listaDePOIs = soporteDeInstanciasParaTestsBuilder.bancoAdapter().buscar("Banco de la Plaza,extracciones");
+		List<POI> listaDePOIs = soporteDeInstanciasParaTestsBuilder.bancoAdapter()
+				.buscar("Banco de la Plaza,extracciones");
 		Assert.assertEquals(listaDePOIs.size(), 2);
 		unaSucursalBanco = (SucursalBanco) listaDePOIs.get(0);
 		Assert.assertEquals(unaSucursalBanco.getNombre(), "Banco de la Plaza");
@@ -38,8 +39,7 @@ public class BancoAdapterTest {
 
 	@Test
 	public void testBusquedaSinCoincidenciaDeSucursalesBanco() {
-		Assert.assertEquals(soporteDeInstanciasParaTestsBuilder.bancoAdapter().buscar("Banco de la Plaza, ").size(),
-				0);
+		Assert.assertEquals(soporteDeInstanciasParaTestsBuilder.bancoAdapter().buscar("Banco de la Plaza, ").size(), 0);
 	}
 
 }

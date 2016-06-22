@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.uqbar.geodds.Point;
 
+import excepciones.NoExisteServicioAsociadoException;
+
 public class CGPTest {
 
 	Point coordenadaMia;
@@ -28,12 +30,12 @@ public class CGPTest {
 
 	@Test
 	public void testPuntoDentroDeLaCGP() {
-		Assert.assertTrue(cgp1.estaCercaDe(coordenadaMia));
+		Assert.assertTrue(cgp1.estasCercaDe(coordenadaMia));
 	}
 
 	@Test
 	public void testPuntoAfueraDeLaCGP() {
-		Assert.assertFalse(cgp1.estaCercaDe(parada114DeCabildoYMonroe.getCoordenada()));
+		Assert.assertFalse(cgp1.estasCercaDe(parada114DeCabildoYMonroe.getCoordenada()));
 	}
 
 	@Test
@@ -52,8 +54,9 @@ public class CGPTest {
 	public void testCgpSinServicioAsociado() {
 		cgp1.estaDisponible((LocalDateTime.of(2016, 1, 15, 10, 10, 30)), prestamo);
 	}
+
 	@Test
-	public void testEncuentraAlmagroEnElCGP5(){
+	public void testEncuentraAlmagroEnElCGP5() {
 		Assert.assertTrue(cgp1.getZonasQueIncluye().contains("Almagro"));
 	}
 }
