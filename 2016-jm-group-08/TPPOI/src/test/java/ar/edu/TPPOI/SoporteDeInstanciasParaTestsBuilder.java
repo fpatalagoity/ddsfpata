@@ -33,14 +33,7 @@ public class SoporteDeInstanciasParaTestsBuilder {
 	Notificar notificar;
 	Almacenar almacenar;
 	EnvioDeMail envioDeMail;
-	TotalResultadosPorBusquedaYTerminal totalResultPorBusqYTerm; 
-	Reporte reporte;
-	TotalBusquedasPorFecha totBusqPorFecha;
-	TotalResultadosPorTerminal totResultPorTerminal;
-	Registro registro;
-	TotalBusquedasPorFecha reporteDeTotalDeBusquedasPorFecha;
-	TotalResultadosPorTerminal reporteDeTotalDeResultadosPorTerminal;
-	
+
 	public Point miCoordenaAbasto() {
 		if (miCoordenaAbasto == null) {
 			miCoordenaAbasto = new Point(-58.42059446334839, -34.60421247366349);
@@ -310,11 +303,7 @@ public class SoporteDeInstanciasParaTestsBuilder {
 	}
 
 	public Terminal terminal() {
-		if (terminal == null) {
-			terminal = new Terminal();
-		}
-
-		return terminal;
+		return new Terminal();
 	}
 
 	public EnvioDeMail envioDeMail() {
@@ -339,18 +328,5 @@ public class SoporteDeInstanciasParaTestsBuilder {
 		}
 
 		return almacenar;
-	}
-
-	public Registro registro() {
-	registro=new Registro();
-	return registro;
-	}
-	public Reporte reporteDeTotalDeBusquedasPorFecha(){
-		TotalBusquedasPorFecha reporteDeTotalDeBusquedasPorFecha = new TotalBusquedasPorFecha();
-		return reporteDeTotalDeBusquedasPorFecha;
-	}
-	public Reporte reporteDeTotalDeResultadosPorTerminal(){
-	TotalResultadosPorTerminal reporteDeTotalDeResultadosPorTerminal =new TotalResultadosPorTerminal();
-	return reporteDeTotalDeResultadosPorTerminal;
 	}
 }

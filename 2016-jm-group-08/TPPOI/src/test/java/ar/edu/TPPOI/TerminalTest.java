@@ -1,6 +1,10 @@
 package ar.edu.TPPOI;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,6 +16,7 @@ import excepciones.YaExisteUnaAccionDeEseTipoException;
 public class TerminalTest {
 
 	Terminal terminalAbasto;
+	Terminal terminalCaballito;
 	MapaPOI mapaInteractivo;
 	Notificar accionNotificar;
 	Notificar accionNotificar2;
@@ -19,13 +24,12 @@ public class TerminalTest {
 	Almacenar accionAlmacenar2;
 	EnvioDeMail envioDeMail1;
 	EnvioDeMail envioDeMail2;
-	Reporte reporte1;
-	Registro registro1;
 	
 	@Before
 	public void init(){
 		SoporteDeInstanciasParaTestsBuilder soporteParaTests = new SoporteDeInstanciasParaTestsBuilder();
 		terminalAbasto = soporteParaTests.terminal();
+		terminalCaballito = soporteParaTests.terminal();
 		mapaInteractivo = soporteParaTests.mapa();
 		envioDeMail1 = soporteParaTests.envioDeMail();
 		envioDeMail2 = soporteParaTests.envioDeMail();
@@ -34,10 +38,8 @@ public class TerminalTest {
 		accionAlmacenar = soporteParaTests.almacenar();
 		accionAlmacenar2 = soporteParaTests.almacenar();
 		terminalAbasto.setMapa(mapaInteractivo);
-		registro1=soporteParaTests.registro();
-	
-		terminalAbasto.registro=registro1;
-		
+		terminalCaballito.setMapa(mapaInteractivo);
+
 	}
 
 	
@@ -68,7 +70,7 @@ public class TerminalTest {
 		accionNotificar.setTiempoLimite(1);
 		accionNotificar2.setTiempoLimite(1);
 		terminalAbasto.activarAccion(accionNotificar);
-		terminalAbasto.activarAccion(accionNotificar2);
+		terminalAbasto.activarAccion(accionNotificar);
 	}
 	
 	@Test (expected = NoSePuedeDesactivarException.class)
@@ -97,6 +99,7 @@ public class TerminalTest {
 	public void testNotificarCuandoSeExcedeElTiempoLimite(){
 		accionNotificar.setTiempoLimite(1);
 		terminalAbasto.activarAccion(accionNotificar);
+		
 		terminalAbasto.buscar("114");
 		Assert.assertEquals(true, envioDeMail1.getMailEnviado());
 	}
@@ -121,22 +124,96 @@ public class TerminalTest {
 		Assert.assertEquals(2, terminalAbasto.getBusquedasHechas().get(0).getCantDeResultados(), 0);
 
 	}
-		
-	@Test 
-	public void testRegistra1Busqueda(){
-		terminalAbasto.buscar("114");
-		Assert.assertEquals(1,terminalAbasto.obtenerReporteTotalesBusquedaPorFecha().get(LocalDate.now()),0);
-	}
-
+	
+	
+//------------------------------ Tests de Reportes ------------------------------
+	
+	//Tests para item 3
 	@Test
-	public void seAlmacena1Busqueda(){ 
-		terminalAbasto.buscar("114");
-		Assert.assertEquals(1,terminalAbasto.obtenerTotalResultadosPorBusquedaYTerminal());
-	}
-	@Test
-	public void hay1Resultado(){
+	public void testObtenerReporteDeTerminalDadaUnaFecha(){
 		terminalAbasto.activarAccion(accionAlmacenar);
 		terminalAbasto.buscar("114");
-		Assert.assertEquals(1, terminalAbasto.obtenerTotalResultadosPorBusquedaYTerminal().get(0).cantidadDeResultados);
+		terminalAbasto.buscar("fitness");
+		
+		Assert.assertEquals(2, terminalAbasto.obtenerReporte(LocalDate.now()));
+		
 	}
+	
+	@Test
+	public void testObtenerReporteDeTerminalDadaUnaFechaSinHaberBuscado(){
+		terminalAbasto.activarAccion(accionAlmacenar);
+		
+		Assert.assertEquals(0, terminalAbasto.obtenerReporte(LocalDate.now()));
+		
+	}
+	
+	@Test
+	public void testObtenerReporteDeTerminalDadaUnaFechaConAlmacenarDesactivado(){
+		terminalAbasto.buscar("114");
+		terminalAbasto.buscar("fitness");
+		
+		Assert.assertEquals(0, terminalAbasto.obtenerReporte(LocalDate.now()));
+		
+	}
+	
+	
+	
+	//Tests para item 4a
+	@Test
+	public void testGenerarReportePorBusqueda(){
+		List<Integer> listaQueEspero = new ArrayList<>();
+		listaQueEspero.add(2);
+		listaQueEspero.add(1);
+		
+		terminalAbasto.activarAccion(accionAlmacenar);
+		terminalAbasto.buscar("114");
+		terminalAbasto.buscar("fitness");
+		
+		Assert.assertEquals(listaQueEspero, terminalAbasto.generarReportePorBusqueda());
+		
+	}
+	
+	@Test
+	public void testGenerarReportePorBusquedaNoHabiendoBuscado(){
+		List<Integer> listaQueEspero = new ArrayList<>();
+		
+		terminalAbasto.buscar("114");
+		terminalAbasto.buscar("fitness");
+		Assert.assertEquals(listaQueEspero, terminalAbasto.generarReportePorBusqueda());
+		
+	}
+	
+	//Tests para item 4b
+	@Test
+	public void testGenerarReportesTotalesPorTerminales(){
+		List<Terminal> listaDeTerminales = new ArrayList<>();
+		listaDeTerminales.add(terminalAbasto);
+		listaDeTerminales.add(terminalCaballito);
+		
+		Map<Terminal, Integer> diccionarioAuxiliar = new HashMap<>();
+		diccionarioAuxiliar.put(terminalAbasto, 3);
+		diccionarioAuxiliar.put(terminalCaballito, 1);
+		
+		terminalAbasto.activarAccion(accionAlmacenar);
+		terminalCaballito.activarAccion(accionAlmacenar);
+		
+		terminalAbasto.buscar("114");
+		terminalAbasto.buscar("fitness");
+		
+		terminalCaballito.buscar("hola");
+		terminalCaballito.buscar("SUBE");
+		
+		Assert.assertEquals(diccionarioAuxiliar, GeneradorDeReportes.generarReportesTotales(listaDeTerminales));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

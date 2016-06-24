@@ -1,12 +1,10 @@
 package ar.edu.TPPOI;
 
 import java.util.List;
-import java.util.Map;
-
+import java.time.LocalDate;
 import excepciones.NoSePuedeDesactivarException;
 import excepciones.YaExisteUnaAccionDeEseTipoException;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Terminal {
@@ -14,7 +12,6 @@ public class Terminal {
 	MapaPOI mapa;
 	List<BusquedaHecha> busquedasHechas = new ArrayList<>();
 	List<Accion> acciones = new ArrayList<>();
-	Registro registro;
 	
 	//-------------------------------------------------------------
 	
@@ -67,12 +64,14 @@ public class Terminal {
 		BusquedaHecha unaBusqueda = new BusquedaHecha();
 		unaBusqueda.datosDeLaBusqueda(unTextoLibre,this);
 		this.acciones.forEach(unaAccion -> unaAccion.ejecutar(unaBusqueda, this));
-		this.registro.registrar(unaBusqueda,this);
 	}
-	public Map<LocalDate,Integer> obtenerReporteTotalesBusquedaPorFecha(){
-		return this.registro.obtenerReporteTotalesBusquedasPorFecha();
+	
+	public int obtenerReporte(LocalDate unaFecha){
+		return GeneradorDeReportes.generarReportePorFecha(unaFecha, busquedasHechas);
 	}
-	public List<CantidadPorTerminal> obtenerTotalResultadosPorBusquedaYTerminal(){
-		return this.registro.obtenerTotalResultadosPorBusquedaYTerminal();
+	
+	public List<Integer> generarReportePorBusqueda(){
+		return GeneradorDeReportes.generarReportePorBusqueda(busquedasHechas);
 	}
+
 }

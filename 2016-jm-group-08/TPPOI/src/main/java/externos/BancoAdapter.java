@@ -8,7 +8,6 @@ import org.uqbar.geodds.Point;
 
 import com.google.gson.Gson;
 
-import ar.edu.TPPOI.BancoExternoParaTest;
 import ar.edu.TPPOI.Direccion;
 import ar.edu.TPPOI.POI;
 import ar.edu.TPPOI.Servicio;
@@ -18,7 +17,7 @@ public class BancoAdapter implements SistemaExternoAdapterInterface {
 
 	BancoExternoInterface bancoExterno;
 
-	public BancoAdapter(BancoExternoParaTest unSistemaConsultaDeBancosExterno) {
+	public BancoAdapter(BancoExternoInterface unSistemaConsultaDeBancosExterno) {
 		bancoExterno = unSistemaConsultaDeBancosExterno;
 	}
 
