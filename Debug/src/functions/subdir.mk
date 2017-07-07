@@ -4,40 +4,34 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../src/functions/ansisop.c \
+../src/functions/cache.c \
 ../src/functions/config.c \
-../src/functions/instruction_cycle.c \
-../src/functions/interruption.c \
+../src/functions/frame.c \
+../src/functions/hash_function.c \
 ../src/functions/log.c \
 ../src/functions/memory.c \
-../src/functions/pcb.c \
-../src/functions/primitivas.c \
-../src/functions/serialization.c \
-../src/functions/stack.c 
+../src/functions/ram.c \
+../src/functions/utils.c 
 
 OBJS += \
-./src/functions/ansisop.o \
+./src/functions/cache.o \
 ./src/functions/config.o \
-./src/functions/instruction_cycle.o \
-./src/functions/interruption.o \
+./src/functions/frame.o \
+./src/functions/hash_function.o \
 ./src/functions/log.o \
 ./src/functions/memory.o \
-./src/functions/pcb.o \
-./src/functions/primitivas.o \
-./src/functions/serialization.o \
-./src/functions/stack.o 
+./src/functions/ram.o \
+./src/functions/utils.o 
 
 C_DEPS += \
-./src/functions/ansisop.d \
+./src/functions/cache.d \
 ./src/functions/config.d \
-./src/functions/instruction_cycle.d \
-./src/functions/interruption.d \
+./src/functions/frame.d \
+./src/functions/hash_function.d \
 ./src/functions/log.d \
 ./src/functions/memory.d \
-./src/functions/pcb.d \
-./src/functions/primitivas.d \
-./src/functions/serialization.d \
-./src/functions/stack.d 
+./src/functions/ram.d \
+./src/functions/utils.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

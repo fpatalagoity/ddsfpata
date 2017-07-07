@@ -13,6 +13,8 @@ EXECUTABLES :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+src/threads \
+src/other \
 src/libSockets \
 src/functions \
 src \
